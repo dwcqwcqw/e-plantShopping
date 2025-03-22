@@ -14,25 +14,40 @@ function CartItem({ onContinueShopping }) {
     };
 
     const handleIncrement = (item) => {
-        dispatch(updateQuantity({
-            name: item.name,
-            quantity: item.quantity + 1
-        }));
+        try {
+            dispatch(updateQuantity({
+                name: item.name,
+                quantity: item.quantity + 1
+            }));
+        } catch (error) {
+            console.error('Error updating quantity:', error);
+            alert('Failed to update quantity. Please try again.');
+        }
     };
 
     const handleDecrement = (item) => {
-        if (item.quantity > 1) {
-            dispatch(updateQuantity({
-                name: item.name,
-                quantity: item.quantity - 1
-            }));
-        } else {
-            handleRemove(item.name);
+        try {
+            if (item.quantity > 1) {
+                dispatch(updateQuantity({
+                    name: item.name,
+                    quantity: item.quantity - 1
+                }));
+            } else {
+                handleRemove(item.name);
+            }
+        } catch (error) {
+            console.error('Error updating quantity:', error);
+            alert('Failed to update quantity. Please try again.');
         }
     };
 
     const handleRemove = (itemName) => {
-        dispatch(removeItem(itemName));
+        try {
+            dispatch(removeItem(itemName));
+        } catch (error) {
+            console.error('Error removing item:', error);
+            alert('Failed to remove item. Please try again.');
+        }
     };
 
     const handleContinueShopping = (e) => {
@@ -63,14 +78,25 @@ function CartItem({ onContinueShopping }) {
                                     <p>{item.description}</p>
                                     <p className="item-price">{item.cost}</p>
                                     <div className="quantity-controls">
-                                        <button onClick={() => handleDecrement(item)}>-</button>
+                                        <button 
+                                            onClick={() => handleDecrement(item)}
+                                            aria-label="Decrease quantity"
+                                        >
+                                            -
+                                        </button>
                                         <span>{item.quantity}</span>
-                                        <button onClick={() => handleIncrement(item)}>+</button>
+                                        <button 
+                                            onClick={() => handleIncrement(item)}
+                                            aria-label="Increase quantity"
+                                        >
+                                            +
+                                        </button>
                                     </div>
                                     <p className="item-subtotal">Subtotal: ${calculateTotalCost(item)}</p>
                                     <button 
                                         className="remove-button"
                                         onClick={() => handleRemove(item.name)}
+                                        aria-label={`Remove ${item.name} from cart`}
                                     >
                                         Remove
                                     </button>

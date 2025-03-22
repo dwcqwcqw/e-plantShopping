@@ -6,7 +6,9 @@ import { addItem } from './CartSlice';
 
 function ProductList({ onHomeClick }) {
     const dispatch = useDispatch();
+    // Get cart items and total from Redux store
     const cartItems = useSelector((state) => state.cart.items);
+    const cartTotal = useSelector((state) => state.cart.total);
     const [showCart, setShowCart] = useState(false);
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
     const [addedToCart, setAddedToCart] = useState({});
@@ -272,24 +274,29 @@ function ProductList({ onHomeClick }) {
     };
 
     const handleAddToCart = (plant) => {
-        // Add to local state
-        setAddedToCart(prev => ({
-            ...prev,
-            [plant.name]: true
-        }));
+        try {
+            // Dispatch addItem action to Redux store
+            dispatch(addItem({
+                id: plant.name,
+                name: plant.name,
+                image: plant.image,
+                description: plant.description,
+                cost: plant.cost,
+                quantity: 1
+            }));
 
-        // Dispatch to Redux store
-        dispatch(addItem({
-            id: plant.name,
-            name: plant.name,
-            image: plant.image,
-            description: plant.description,
-            cost: plant.cost,
-            quantity: 1
-        }));
+            // Update local state for button disable
+            setAddedToCart(prev => ({
+                ...prev,
+                [plant.name]: true
+            }));
 
-        // Show success message
-        alert(`${plant.name} has been added to cart!`);
+            // Show success message
+            alert(`${plant.name} has been added to cart!`);
+        } catch (error) {
+            console.error('Error adding item to cart:', error);
+            alert('Failed to add item to cart. Please try again.');
+        }
     };
 
     return (
