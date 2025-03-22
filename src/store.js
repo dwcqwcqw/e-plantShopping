@@ -1,8 +1,21 @@
 import { configureStore } from '@reduxjs/toolkit';
 import cartReducer from './CartSlice';
- const store = configureStore({
+
+// Configure the Redux store
+const store = configureStore({
     reducer: {
         cart: cartReducer,
     },
+    // Add middleware and other configuration options if needed
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+            serializableCheck: {
+                // Ignore these action types
+                ignoredActions: ['persist/PERSIST'],
+            },
+        }),
+    devTools: process.env.NODE_ENV !== 'production',
 });
-export default store
+
+// Export the store
+export default store;
