@@ -1,44 +1,38 @@
-
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import ProductList from './ProductList';
 import './App.css';
 import AboutUs from './AboutUs';
 
 function App() {
-  
-  const [showProductList, setShowProductList] = useState(false);
-
-  const handleGetStartedClick = () => {
-    setShowProductList(true);
-  };
+  const [showHome, setShowHome] = useState(true);
+  // Get cart state from Redux store
+  const cartItems = useSelector(state => state.cart.items);
+  const cartTotal = useSelector(state => state.cart.total);
 
   const handleHomeClick = () => {
-    setShowProductList(false);
+    setShowHome(true);
   };
 
   return (
     <div className="app-container">
-      <div className={`landing-page ${showProductList ? 'fade-out' : ''}`}>
-        <div className="background-image"></div>
-        <div className="content">
-         <div className="landing_content">
-         <h1>Welcome To Paradise Nursery</h1>
-          <div className="divider"></div>
-          <p>Where Green Meets Serenity</p>
-         
-          <button className="get-started-button" onClick={handleGetStartedClick}>
-            Get Started
-          </button>
-         </div>
-          <div className="aboutus_container">
-          <AboutUs/>
-          </div>
-          </div>
-
-      </div>
-      <div className={`product-list-container ${showProductList ? 'visible' : ''}`}>
-        <ProductList onHomeClick={handleHomeClick}/>
-      </div>
+      {showHome ? (
+        <ProductList onHomeClick={handleHomeClick} />
+      ) : (
+        <div className="welcome-screen">
+          <h1>Welcome to Paradise Nursery</h1>
+          <button onClick={handleHomeClick}>Start Shopping</button>
+        </div>
+      )}
+      
+      {/* Debug information - only show in development */}
+      {process.env.NODE_ENV === 'development' && (
+        <div className="debug-info" style={{ display: 'none' }}>
+          <h3>Debug Information</h3>
+          <p>Cart Items: {cartItems.length}</p>
+          <p>Total: ${cartTotal.toFixed(2)}</p>
+        </div>
+      )}
     </div>
   );
 }
