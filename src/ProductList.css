@@ -41,22 +41,65 @@ body {
 
 /* Product Grid */
 .product-grid {
-    display:flex;
-    flex-direction: column;
-    width: 100vw;
-    align-items: center;
-    justify-content: center;
-}
-.product-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 50px;
-    /* background-color: pink; */
-    /* justify-content: space-between; */
     padding: 20px;
+}
+
+.category-section {
+    margin-bottom: 40px;
+}
+
+.category-title {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-size: 24px;
+    border-bottom: 2px solid #4CAF50;
+    padding-bottom: 10px;
+}
+
+.plants-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.plant-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.plant-card:hover {
+    transform: translateY(-5px);
+}
+
+.plant-image {
     width: 100%;
-    align-items: center;
-    justify-content: center;
+    height: 200px;
+    object-fit: cover;
+}
+
+.plant-name {
+    padding: 15px;
+    margin: 0;
+    color: #2c3e50;
+    font-size: 18px;
+}
+
+.plant-description {
+    padding: 0 15px;
+    color: #666;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.plant-cost {
+    padding: 15px;
+    margin: 0;
+    color: #4CAF50;
+    font-weight: bold;
+    font-size: 16px;
 }
 
 /* Product Card */
@@ -98,17 +141,29 @@ body {
 }
 
 .product-button {
-    background-color: #e74c3c;
-    color: #fff;
-    border: none;
+    background-color: #4CAF50;
+    color: white;
     padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
+    width: 100%;
     margin-top: 10px;
+    transition: all 0.3s ease;
 }
 
 .product-button:hover {
-    background-color: #c0392b;
+    background-color: #45a049;
+}
+
+.product-button.added {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.product-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
 }
 
 /* Pseudo-elements - Sale badge */
